@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Caliburn</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/react-router-dom/umd/react-router-dom.min.js"></script>
+    <script src="https://unpkg.com/antd@4.0.1/dist/antd.min.js"></script>
+    
+    <!-- Don't use this in production: -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="./publishData.js"></script>
+    <link rel="stylesheet" type="text/css" href="./style.css"></link>
+    <link rel="stylesheet" href="https://unpkg.com/antd@4.0.1/dist/antd.min.css">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+    const {HashRouter, Route, Switch} = ReactRouterDOM;
+    const {Menu, Button, Row, Dropdown, Table, Modal, Col, Input, TextArea, Form} = antd; 
+    const publishColumns = [{
+          title: '行业',
+          dataIndex: 'industry'
+      },{
+        title: '任务简介',
+        dataIndex: 'brief'
+      }, {
+        title: '需求文档',
+        dataIndex: 'reqDoc',
+        render: (text, record, index) =>{
+          return (
+            <img className="docIcon" src='./img/pdf.jfif'/>
+          )
+        }
+      }, {
+        title: '交付日期',
+        dataIndex: 'delivDate',
+      }, {
+        title: '接单方最低声望值',
+        dataIndex: 'repu',
+      }, {
+        title: '技能要求',
+        dataIndex: 'skill',
+      }, {
+        title: '薪酬',
+        dataIndex: 'pay'
+      },{
+        title: '发布日期',
+        dataIndex: 'pubDate',
+      }, {
+        title: '是否已接单',
+        dataIndex: 'yesNo',
+      }, {
+        title: '状态',
+        dataIndex: 'status',
+      }, {
+        title: '接单方信息',
+        dataIndex: 'info',
+        render: (text, record, index) =>{
+          return (
+            <a>{text}</a>
+          )
+        }
+      }];
+
+      const getColumns = [{
+          title: '行业',
+          dataIndex: 'industry'
+      },{
+        title: '任务简介',
+        dataIndex: 'brief'
+      }, {
+        title: '需求文档',
+        dataIndex: 'reqDoc',
+        render: (text, record, index) =>{
+          return (
+            <img className="docIcon" src='./img/pdf.jfif'/>
+          )
+        }
+      }, {
+        title: '交付日期',
+        dataIndex: 'delivDate',
+      }, {
+        title: '接单方最低声望值',
+        dataIndex: 'repu',
+      }, {
+        title: '技能要求',
+        dataIndex: 'skill',
+      }, {
+        title: '薪酬',
+        dataIndex: 'pay'
+      },{
+        title: '发布日期',
+        dataIndex: 'pubDate',
+      }];
+
+    class Home extends React.Component{
+      constructor() {
+        super();
+        this.state = {
+
+        }
+      }
+
+      render = () => {
+        return <div className="content">
+          <div className="menuBar">
+            <div className='menuInfo'><img src="./img/logo.png" className="logo" onClick={() => this.props.history.push('/')}/>Caliburn</div>
+            <img src="./img/userIcon.svg" className="userIcon" onClick={() => this.props.history.push('/userCenter')}/>
+          </div>
+          <div className="content1">
+            <div className="contentText1">
+              <div className="title1">Caliburn</div>
+              <div className="info1">人与连接的区块链孪生</div>
+            </div>
+            <div className="btnContent">
+              <Button className='button2' style={{marginRight: 250}} onClick={() => this.props.history.push('publish')}>
+                  <img className="logo" src="./img/logo.png" />
+                  <span className="btnText">发布任务</span>
+              </Button>
+              <Button className='button2' onClick={() => this.props.history.push('get')}>
+                  <img className="logo" src="./img/logo.png" />
+                  <span className="btnText">领取任务</span>
+              </Button>
+             </div>
+          </div>
+        </div>;
+      }
+    }
+
+
+    class Publish extends React.Component{
+      constructor() {
+        super();
+        this.state = {
+          pubVisible: false,
+          publishDataVal: publishData
+        }
+      }
+      showPubModal = () => {
+        this.setState({
+          pubVisible: true
+        });
+      };
+
+      handleCancel = e => {
+        this.setState({
+          pubVisible: false
+        });
+      };
+
+      handleConfirm = e => {
+        let data = publishData;
+        data.push({
+                key: '10',
+                industry: '软件',
+                brief: '数据分析',
+                reqDoc: '',
+                skill: "python",
+                pay: '2000',
+                delivDate: '2020/03/11',
+                repu: '300',
+                pubDate: '2020/01/01',
+                yesNo: '否',
+                info: ''
+              });
+        this.setState({
+          pubVisible: false,
+          publishDataVal: data
+        });
+      }
+      
+      render = () => {
+        let menu1 = <Menu>
+          {
+            pubIndustryMenu.map(item => {
+              return <Menu.Item key={item}>{item}</Menu.Item>
+            })
+          }
+          </Menu>;
+        let menu2 = <Menu>
+          {
+            pubPayMenu.map(item => {
+              return <Menu.Item key={item}>{item}</Menu.Item>
+            })
+          }
+          </Menu>;
+          let menu3 = <Menu>
+          {
+            pubGetMenu.map(item => {
+              return <Menu.Item key={item}>{item}</Menu.Item>
+            })
+          }
+        </Menu>
+        return <div className="content">
+          <Row className="publishMenuBar">
+            <div className='menuInfo'><img src="./img/logo.png" className="logo" onClick={() => this.props.history.push('/')}/>Caliburn</div>
+            <img src="./img/userIcon.svg" className="userIcon" onClick={() => this.props.history.push('/userCenter')}/>
+          </Row>
+          <Row className="publishContent">
+            <Row className="dropDownBar">
+              <div>
+              <Dropdown overlay={menu1}>
+                <Button className="dropbtn">选择行业</Button>
+              </Dropdown>
+              <Dropdown overlay={menu2}>
+                <Button className="dropbtn">选择薪酬范围</Button>
+              </Dropdown>
+              <Dropdown overlay={menu3}>
+                <Button className="dropbtn">是否接单</Button>
+              </Dropdown>
+              </div>
+              <Button className="getListBtn">点击获取已发布任务</Button>
+            </Row>
+            <Row className='postTaskBar'>
+              <Button className="postTaskBtn" onClick={() => {this.setState({pubVisible: true})}}>发布新任务</Button>
+            </Row>
+            <Row className="table">
+              <Table columns={publishColumns} dataSource={this.state.publishDataVal} />
+            </Row>
+          </Row>
+          
+          <Modal
+            title="发布新任务"
+            visible={this.state.pubVisible}
+            onOk={this.handleConfirm}
+            onCancel={this.handleCancel}>
+              {
+                publishTask.map((item, index) => {
+                  return <Row className='postRow' key={index}>
+                            <Col span={8}>{item.title}</Col>
+                            <Col span={15}><Input /></Col>
+                          </Row>
+                })
+              }
+          </Modal>
+
+        </div>;
+      }
+    }
+
+    class Get extends React.Component{
+      constructor() {
+        super();
+        this.state = {
+          getVisible: false
+        }
+      }
+      showPubModal = () => {
+        this.setState({
+          getVisible: true
+        });
+      };
+
+      handleCancel = e => {
+        this.setState({
+          getVisible: false
+        });
+      };
+
+      render = () => {
+        let menu1 = <Menu>
+          {
+            pubIndustryMenu.map(item => {
+              return <Menu.Item key={item}>{item}</Menu.Item>
+            })
+          }
+          </Menu>;
+        let menu2 = <Menu>
+          {
+            pubPayMenu.map(item => {
+              return <Menu.Item key={item}>{item}</Menu.Item>
+            })
+          }
+          </Menu>;
+        return <div className="content">
+          <div className="menuBar">
+            <div className='menuInfo'><img src="./img/logo.png" className="logo" onClick={() => this.props.history.push('/')}/>Caliburn</div>
+            <img src="./img/userIcon.svg" className="userIcon" onClick={() => this.props.history.push('/userCenter')}/>
+          </div>
+          <Row className="publishContent">
+            <Row className="dropDownBar">
+              <div>
+                <Dropdown overlay={menu1}>
+                  <Button className="dropbtn">选择行业</Button>
+                </Dropdown>
+                <Dropdown overlay={menu2}>
+                  <Button className="dropbtn">选择薪酬范围</Button>
+                </Dropdown>
+              </div>
+              <Button className="getListBtn">点击获取最新任务列表</Button>
+            </Row>
+            <Row className='postTaskBar'>
+              <Button className="postTaskBtn" onClick={() => {this.setState({getVisible: true})}}>认领所选任务</Button>
+            </Row>
+            <Row className="table">
+              <Table columns={getColumns} dataSource={publishData} rowSelection/>
+            </Row>
+          </Row>
+
+          <Modal
+            title="确认认领任务"
+            visible={this.state.getVisible}
+            onOk={this.handleCancel}
+            onCancel={this.handleCancel}>
+            <span>确认认领已选中任务？</span>
+          </Modal>
+        </div>;
+      }
+    }
+
+
+    class UserCenter extends React.Component{
+      constructor() {
+        super();
+        this.state = {
+
+        }
+      }
+
+      render = () => {
+        return <div className="content">
+          <div className="publishMenuBar">
+            <div className='menuInfo'><img src="./img/logo.png" className="logo" onClick={() => this.props.history.push('/')}/>Caliburn</div>
+            <img src="./img/userIcon.svg" className="userIcon" onClick={() => this.props.history.push('/userCenter')}/>
+          </div>
+          <Row className="publishContent">
+            <Row className="reputImg">
+              <img src='./img/reputation1.svg'/>
+            </Row>
+            <Row className="bioRow">
+                {
+                  bioData.map((item, index) => {
+                    return <Row key={index} className="bioitem">
+                      <Col className="bioTitle" span={8}>{item.title}</Col>
+                      <Col className="bioValue" span={8}>{item.value}</Col>
+                    </Row>
+                  })
+                }
+            </Row>
+          </Row>
+        </div>;
+      }
+    }
+
+      ReactDOM.render(
+        <HashRouter>
+          <Switch>
+            <Route exact  path="/" component={Home} />
+            <Route path="/publish" component={Publish} />                                                                                                                                                                                                                                                                                   
+            <Route path="/get" component={Get} />  
+            <Route path="/usercenter" component={UserCenter} />                                                                                                                                                                                                                                                                                                                                                                                                                                          
+          </Switch>
+        </HashRouter>,document.getElementById('root')
+      );
+
+    </script>
+  </body>
+</html>
