@@ -1,4 +1,4 @@
-# Substrate Node Template
+# Caliburn
 
 A new FRAME-based Substrate node, ready for hacking.
 
