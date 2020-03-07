@@ -17,6 +17,7 @@ curl https://sh.rustup.rs -sSf | sh
 Initialize your Wasm Build environment:
 
 ```bash
+cd caliburn
 ./scripts/init.sh
 ```
 
