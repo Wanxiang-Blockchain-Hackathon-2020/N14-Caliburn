@@ -15,9 +15,9 @@ fn main() -> Result<(), cli::error::Error> {
 		name: "Substrate Node",
 		commit: env!("VERGEN_SHA_SHORT"),
 		version: env!("CARGO_PKG_VERSION"),
-		executable_name: "node-template",
+		executable_name: "caliburn",
 		author: "Anonymous",
-		description: "Template Node",
+		description: "Caliburn Node",
 		support_url: "support.anonymous.an",
 	};
 
